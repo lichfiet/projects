@@ -1,0 +1,4 @@
+directory_contents.txt
+run_command_on_apply.tf
+terraform.tfstate
+terraform.tfstate.backup
