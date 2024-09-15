@@ -1,0 +1,29 @@
+{
+  "name": "log-combiner",
+  "version": "1.0.0",
+  "description": "combine log files",
+  "main": "combine.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "pkg": {
+    "scripts": "combine.js",
+    "targets": [
+      "node18-win-x64",
+      "node18-linux-x64",
+      "node18-macos-x64"
+    ],
+    "outputPath": "./"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "strip-ansi": "^6.0.1",
+    "pkg": "^5.8.1"
+  }
+}
