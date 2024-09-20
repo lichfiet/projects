@@ -1,7 +1,6 @@
 const log = require('./log.js');
 
-module.exports = errorHandler = (err, req, res, next) => {
-    log.error(err);
-    res.status(500).send('Something broke!');
-    next();
-};
+module.exports = (err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Something broke! " + err);
+  };

@@ -23,5 +23,9 @@ console.debug = function(message) {
   logger.debug(message);
 };
 
+console.info = function(message) {
+  logger.info(message);
+};
+
 module.exports = log = logger;
   
