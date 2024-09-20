@@ -16,57 +16,49 @@ const pgConnector = new Sequelize("postgres", "postgres", "password", {
 	logging: (msg) => logger.debug(`PG Database: ${msg}`),
 });
 
-const File = pgConnector.define("File", {
-	fileName: {
+const Item = pgConnector.define("Item", {
+	itemName: {
 		type: DataTypes.STRING,
 		allowNull: false,
-	},
-	fileType: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-	fileExtension: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-	fileExtensionType: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-	folder: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-	method: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
+	}
 });
 
 module.exports = dbController = {
 	connect: async () => {
-		try {
-			await pgConnector.authenticate();
+		await pgConnector.authenticate().then(() => {
 			logger.info("Connection has been established successfully.");
-		} catch (error) {
+		}).catch((error) => {
 			logger.error("Unable to connect to the database:", error);
-		}
+		});
 	},
 	refreshModels: () => {
-		pgConnector.sync();
-	},
-	test: async () => {
-		await File.create({
-			fileName: "bob2",
-			fileType: "-",
-			fileExtension: "png",
-			fileExtensionType: "1",
-			folder: "/",
-			method: "S3",
+		pgConnector.sync().then(() => {
+			logger.info("Models have been synced successfully.");
+		}).catch((error) => {
+			logger.error("Unable to sync models:", error);
 		});
-
-		logger.info("test1");
-		return await File.findAll({ attributes: ["fileName"] });
 	},
-	syncData: () => {},
+	createItem: async (item) => {
+		await Item.create(item).then(() => {
+			logger.info("Item has been created successfully.");
+			return item;
+		}).catch((error) => {
+			logger.error("Unable to create item:", error);
+			throw error;
+		});
+	},
+	getItem: async (itemName) => {
+		return await Item.findOne({ where: { itemName } });
+	},
+	getItems: async () => {
+		return await Item.findAll();
+	},
+	deleteItem: async (itemName) => {
+		await Item.destroy({ where: { itemName } }).then(() => {
+			logger.info("Item has been deleted successfully.");
+		}).catch((error) => {
+			logger.error("Unable to delete item:", error);
+			throw error;
+		});
+	}
 };

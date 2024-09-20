@@ -11,30 +11,35 @@ const config = dotenv.config(); // Prints Local Variables
 /**
  * * Observability
  */
-const logger = require("./middlewares/logger.js"); // logging
+
+/**
+ * *Import Middlewares
+*/
+const logger = require("./middlewares/log.js"); // logging
+console.debug("Imported Middlewares");
 
 /**
  ** App Setup
  */
 const app = express();
+app.use(logger());
 app.use(cors());
-logger.debug("Env Vars: " + JSON.stringify(config));
+app.use(express.json());
 
-//const dbController = require("./utils/db.js"); // test
-//dbController.connect(); // connect to sql DB
-//dbController.refreshModels();
+
+console.debug("Env Vars: " + JSON.stringify(config));
+
+const dbController = require("./utils/db.js");
+
+await dbController.connect();
+await dbController.refreshModels();
 
 /**
  * *Import Utilities
  */
 const { utilityWrapper } = require("./utils/utilityWrapper.js"); // For s3 / sftp connections
-logger.debug("Imported Utilities");
+console.debug("Imported Utilities");
 
-/**
- * *Import Middlewares
- */
-const { validationController } = require("./middlewares/requestValidation.js"); // For request validation
-logger.debug("Imported Middlewares");
 
 /**
  * * HTTPS Setup
@@ -49,27 +54,18 @@ const httpServer = http.createServer(app); // server var
  */
 
 
-logger.info("Starting server....");
+console.info("Starting server....");
 
 /**
  * * /health for healthchecks in the future
  */
-app.get("/health", validationController.healthCheck, async (req, res) => {
+app.get("/health", async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.status(200).send("Server Running");
 });
-
-/**
- * * /validationTest for testing the validation middleware
- */
-app.get("/validationTest", validationController.test, async (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.status(200).send("Server Running");
-});
-
 
 // START SERVER
 const PORT = process.env.PORT;
 httpServer.listen(PORT, () => {
-  logger.info(`Server is running on port ${PORT}`);
+  console.info(`Server is running on port ${PORT}`);
 });
