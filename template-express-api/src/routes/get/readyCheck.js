@@ -6,7 +6,7 @@ const dbController = require("../../utils/db.js");
 router.get("/", async (req, res, next) => {
     try {
         const failCheck = () => {
-            next(new Error("Database Connection Failed After 5 Seconds"));
+            res.status(503).send("Server Not Ready");
         };
 
         setTimeout(failCheck, 5000);

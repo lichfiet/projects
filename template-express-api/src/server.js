@@ -1,9 +1,8 @@
 const log = require("./middlewares/log.js");
 log.info("Starting Server");
 
-/**
- ** App Packages
- */
+
+// *App Packages
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv"); // for use of environment variables
@@ -11,57 +10,33 @@ const http = require("http");
 const config = dotenv.config(); // Prints Local Variables
 console.debug("Env Vars: " + JSON.stringify(config));
 
-/**
- * *Import Middlewares
-*/
+
+// *Import Middlewares
 const errorHandler = require("./middlewares/error.js"); // error handling
-console.debug("Imported Middlewares");
 
-/**
- ** App Setup
- */
+
+// *App Setup
 const app = express();
-const router = express.Router();
-
 app.use(cors());
 app.use(express.json());
-
-const dbController = require("./utils/db.js");
-
-// dbController.connect();
-// dbController.refreshModels();
-
-
-/**
- * * HTTPS Setup
- */
-const httpServer = http.createServer(app); // server var
 
 
 /**
  *
  * Routes:
- * - /health
+ * - GET /health
+ *   - returns "Server Running"
+ * - GET /ready
+ *   - returns "Server Ready"
+ * - GET/error
+ *   - returns "Server Error"
  */
-const healthCheck = require("./routes/get/healthCheck.js");
-const readyCheck = require("./routes/get/readyCheck.js");
-
-app.use("/health", healthCheck);
-app.use("/ready", readyCheck);
-
-
-
-
-
-app.get("/error", async (req, res, next) => {
-  try {
-    throw new Error("This is a test error"); // intercepted by "errorHandler" middleware
-  } catch (error) {
-    next(error);
-  }
-});
+app.use("/health", require("./routes/get/healthCheck.js"));
+app.use("/ready", require("./routes/get/readyCheck.js"));
+app.use("/error", require("./routes/get/errorTest.js"));
 
 // START SERVER
+const httpServer = http.createServer(app); // create a server object
 const PORT = process.env.PORT;
 httpServer.listen(PORT, () => {
   console.info(`Server is running on port ${PORT}`);
