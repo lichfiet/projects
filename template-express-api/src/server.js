@@ -1,5 +1,5 @@
 const log = require("./middlewares/log.js");
-log.info("Starting Server");
+log.info("Starting Server"); // log startup, override console.log
 
 
 // *App Packages
@@ -41,6 +41,7 @@ const PORT = process.env.PORT;
 httpServer.listen(PORT, () => {
   console.info(`Server is running on port ${PORT}`);
 });
+
 
 app.use(errorHandler);
 
