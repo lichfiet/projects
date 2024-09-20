@@ -16,13 +16,15 @@ const config = dotenv.config(); // Prints Local Variables
  * *Import Middlewares
 */
 const logger = require("./middlewares/log.js"); // logging
+const errorHandler = require("./middlewares/error.js"); // error handling
 console.debug("Imported Middlewares");
 
 /**
  ** App Setup
  */
 const app = express();
-app.use(logger());
+
+app.use(errorHandler());
 app.use(cors());
 app.use(express.json());
 
@@ -31,13 +33,15 @@ console.debug("Env Vars: " + JSON.stringify(config));
 
 const dbController = require("./utils/db.js");
 
-await dbController.connect();
-await dbController.refreshModels();
+dbController.connect();
+dbController.refreshModels();
+
+throw new Error("Test Error");
 
 /**
  * *Import Utilities
  */
-const { utilityWrapper } = require("./utils/utilityWrapper.js"); // For s3 / sftp connections
+const { utilityWrapper } = require("./utils/tools.js"); // For s3 / sftp connections
 console.debug("Imported Utilities");
 
 
