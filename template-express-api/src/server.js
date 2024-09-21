@@ -35,6 +35,8 @@ app.use("/health", require("./routes/get/healthCheck.js"));
 app.use("/ready", require("./routes/get/readyCheck.js"));
 app.use("/error", require("./routes/get/errorTest.js"));
 
+app.use("/generatethumbnail", require("./routes/post/generateThumbnail.js"));
+
 // START SERVER
 const httpServer = http.createServer(app); // create a server object
 const PORT = process.env.PORT;
