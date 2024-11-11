@@ -102,10 +102,6 @@ const NewDealerForm = ({ onChange, deleteForm, formData }) => {
             </select>
           </div>
           <div className='flex justify-between items-center'>
-            <label>Version:</label>
-            <input type="text" {...register("version")} className='text-right' />
-          </div>
-          <div className='flex justify-between items-center'>
             <label>Internal:</label>
             <select {...register("internal")} className='text-left'>
               <option value="false">False</option>
