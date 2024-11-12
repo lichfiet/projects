@@ -41,56 +41,52 @@ const AddDealerForm = ({ onChange, deleteForm, formData }) => {
   }, [formValues]);
 
   return (
-    <div className='m-auto max-w-2xl shadow-2xl'>
-      <h1 className='text-xl font-bold underline'>Dealer: {formData.company_name}</h1>
-      <div className='bg-neutral-900 p-4 rounded-3xl flex flex-col gap-4'>
+    <div className='m-auto w-full max-w-lg shadow-2xl'>
+      <h1 className='font-bold underline'>Dealer: {formData.company_name}</h1>
+      <div className='bg-neutral-900 p-4 rounded-xl flex flex-col gap-4'>
         <form className='flex flex-col gap-1'>
           <div className='flex justify-between items-center'>
-            <label>Company Name:</label>
-            <input type="text" {...register("company_name")} className='text-right' />
+            <label className='text-sm'>Company Name:</label>
+            <input type="text" {...register("company_name")} className='text-right text-sm' />
           </div>
           <div className='flex justify-between items-center'>
-            <label>CID:</label>
-            <input type="text" {...register("cid")} className='text-right' />
-          </div>
-          <div>
-            <label>Cmf(s):</label>
-            <ul className='p-3 bg-neutral-800 rounded-xl'>
-              {fields.map((item, index) => (
-                <li key={item.id}>
-                  <div className='flex justify-between items-center'>
-                    <input
-                      placeholder="cmf"
-                      {...register(`cmfs.${index}.cmfsKey`)}
-                      className='text-left'
-                    />
-                    <input
-                      placeholder="Store Name"
-                      {...register(`cmfs.${index}.store_name`)}
-                      className='text-left'
-                    />
-                    <button type="button" onClick={() => remove(index)}><i className="fa-solid fa-trash"></i></button>
-                  </div>
-                </li>
-              ))}
-              <button
-                type="button"
-                className='text-sm p-1 w-full mt-1 bg-neutral-700 rounded-3xl'
-                onClick={() => append({ cmfsKey: "", store_name: "" })}
-              >
-                Add Cmf+
-              </button>
-            </ul>
+            <label className='text-sm'>CID:</label>
+            <input type="text" {...register("cid")} className='text-right text-sm' />
           </div>
           <div className='flex justify-between items-center'>
-            <label>Region:</label>
-            <select {...register("region")} className='text-left'>
+            <label className='text-sm'>Region:</label>
+            <select {...register("region")} className='text-left text-sm'>
               <option value="east">East</option>
               <option value="west">West</option>
             </select>
           </div>
+          <div>
+            <label className='text-sm'>Cmf(s):</label>
+            <ul className='p-2 my-2 bg-neutral-800 rounded-lg'> 
+              {fields.map((item, index) => (
+                <li key={item.id} className='mb-2'>
+                  <div className='flex justify-between items-center'>
+                    <input
+                      placeholder="Cmf"
+                      {...register(`cmfs.${index}.cmfsKey`)}
+                      className='w-40 text-left px-1 mx-1 rounded text-sm'
+                    /> : 
+                    <input
+                      placeholder="Store Name"
+                      {...register(`cmfs.${index}.store_name`)}
+                      className='text-left mx-1 px-1 rounded text-sm'
+                    />
+                    <button type="button" className="ml-1 text-sm" onClick={() => remove(index)}><i class="fa-solid fa-trash"></i></button>
+                  </div>
+              </li>
+              ))}
+            <button type="button" className='text-sm p-0.5 w-full bg-neutral-700 rounded-lg' onClick={() => append({ cmfsKey: "", store_name: "" })}>  
+              Add <icon className="fa-solid fa-plus"></icon>
+            </button>
+            </ul>
+          </div>
         </form>
-        <button className='bg-neutral-700 rounded-3xl' onClick={deleteForm}><i className="fa-solid fa-trash"></i></button>
+        <button className='bg-neutral-700 rounded-3xl text-sm' onClick={deleteForm}>Delete <i className="fa-solid fa-trash"></i></button>
       </div>
     </div> 
   );

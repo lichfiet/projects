@@ -103,6 +103,7 @@ const MyForm = () => {
           cmfs: form.cmfs,
           account: environment || "",
           region: form.region || "",
+          internal: internal,
           contract_type: form.contract_type || "",
         }
       }
@@ -117,12 +118,12 @@ const MyForm = () => {
   }, [formDataArray, environment, version, internal]);
 
   return (
-    <div className='m-auto max-w-6xl'>
-      <div className='m-auto pt-10'>
+    <div className='justify-center m-auto'>
+      <div className='m-3 p-3 flex flex-col text-center bg-neutral-900 rounded-lg'>
         <h1 className="text-1xl font-bold underline"> Global Settings </h1>
-        <form className='flex flex-col gap-1'>
+        <form className='flex flex-row gap-4 p-2 mx-auto'>
           <div>
-            <label>Environment:</label>
+            <label>Environment: </label>
             <select onChange={(e) => setEnvironment(e.target.value)} value={environment}>
               <option value="prod">Prod</option>
               <option value="dev">Dev</option>
@@ -130,20 +131,20 @@ const MyForm = () => {
             </select>
           </div>
           <div>
-            <label>Internal</label>
+            <label>Internal: </label>
             <select onChange={(e) => setInternal(e.target.value)} value={internal}>
               <option value="false">False</option>
               <option value="true">True</option>
             </select>
           </div>
           <div>
-            <label>Version:</label>
+            <label>Version: </label>
             <input type="text" value={version} onChange={(e) => setVersion(e.target.value)} />
           </div>
         </form>
       </div>
-      <div className='flex flex-row justify-center gap-4'>
-        <div className='p-10 flex flex-col gap-4'>
+      <div className='flex flex-row justify-center gap-4 p-4'>
+        <div className='p-4 flex flex-col gap-4'>
           {formDataArray.map((form) => (
             form.contract_type === "new" ? (
               <NewDealerForm
@@ -162,11 +163,11 @@ const MyForm = () => {
             ) 
           ))}
           <div className='flex justify-center items-center gap-8'>
-            <button className='bg-neutral-600 p-2 rounded-2xl' onClick={() => addForm("new")}>Add New Dealer</button>
-            <button className='bg-neutral-600 p-2 rounded-2xl' onClick={() => addForm("add")}>Add Addtl Dealer</button>
+            <button className='bg-neutral-600 p-2 text-sm rounded-3xl' onClick={() => addForm("new")}>Add New Dealer</button>
+            <button className='bg-neutral-600 p-2 text-sm rounded-3xl' onClick={() => addForm("add")}>Add Addtl Dealer</button>
           </div>
       </div>
-      <div className='m-auto w-full'>
+      <div className='m-auto w-full max-w-lg mx-4'> 
         <h1 className="text-1xl font-bold underline">
           Output
         </h1>
