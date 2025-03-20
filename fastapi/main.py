@@ -36,6 +36,20 @@ class Cat(BaseModel):
             "example": {
                 "name": "Whiskers",
                 "age": 3
+            },
+            "title": "Cat",
+            "description": "A cute cat",\
+            "responses": {
+                "200": {
+                    "description": "A cat",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Cat"
+                            }
+                        }
+                    }
+                }
             }
         }
 
